@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Begrippentoets Seksualiteit & Voortplanting</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #f8f9fa;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 8px;
+    }
+    .feedback {
+      display: none;
+      margin-top: 10px;
+    }
+    .correct {
+      color: green;
+    }
+    .wrong {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Begrippentoets Seksualiteit & Voortplanting</h1>
+  <div id="quiz"></div>
+  <script>
+    const questions = [
+      { vraag: "Wat is een hormoon?", opties: ["Een soort spier", "Een stofje dat processen regelt in het lichaam", "Een zenuw", "Een bacterie"], correct: 1, uitleg: "Een hormoon is een stofje dat processen zoals groei en puberteit regelt." },
+      { vraag: "Wat is ovulatie?", opties: ["Het samensmelten van zaadcel en eicel", "Het innestelen van een bevruchte eicel", "De eisprong", "De menstruatie"], correct: 2, uitleg: "Ovulatie is het vrijkomen van een eicel uit de eierstok." },
+      { vraag: "Wat is de functie van de placenta?", opties: ["Voedingsstoffen uitwisselen tussen moeder en kind", "De baby laten ademen", "Spieren vormen", "Hormonen regelen"], correct: 0, uitleg: "De placenta zorgt voor de uitwisseling van zuurstof, voeding en afvalstoffen." },
+      { vraag: "Wat zijn primaire geslachtskenmerken?", opties: ["Geslachtskenmerken die ontstaan in de puberteit", "De baarmoeder en prostaat", "Geslachtskenmerken die al bij geboorte aanwezig zijn", "Borsten en baardgroei"], correct: 2, uitleg: "Primaire geslachtskenmerken zijn al bij de geboorte aanwezig." },
+      { vraag: "Wat zijn secundaire geslachtskenmerken?", opties: ["Geslachtsdelen", "Kenmerken zoals borstgroei en lage stem", "Kromme tenen", "Hartslag"], correct: 1, uitleg: "Secundaire kenmerken ontstaan tijdens de puberteit zoals borstgroei of een lage stem." },
+      { vraag: "Wat doet de hypofyse?", opties: ["Maakt spijsverteringssappen aan", "Regelt lichaamstemperatuur", "Stuurt hormonen aan", "Maakt bloed aan"], correct: 2, uitleg: "De hypofyse is een hormoonklier die andere klieren aanstuurt." },
+      { vraag: "Wat is een bevruchting?", opties: ["De menstruatie", "De zwangerschapstest", "Het samensmelten van eicel en zaadcel", "Het begin van de puberteit"], correct: 2, uitleg: "Bevruchting is het samensmelten van een eicel en een zaadcel." },
+      { vraag: "Wat is innesteling?", opties: ["Het innemen van de pil", "Het zich vastzetten van de bevruchte eicel in de baarmoederwand", "Het breken van de vliezen", "De geboorte"], correct: 1, uitleg: "Innesteling is wanneer de bevruchte eicel zich hecht aan het baarmoederslijmvlies." },
+      { vraag: "Wat is menstruatie?", opties: ["Het groeien van een baby", "De afbraak en afvoer van het baarmoederslijmvlies", "De eisprong", "De bevruchting"], correct: 1, uitleg: "Menstruatie is het afstoten van het baarmoederslijmvlies." },
+      { vraag: "Wat doet oestrogeen?", opties: ["Verhoogt bloeddruk", "Laat borsthaar groeien", "Bouwt het baarmoederslijmvlies op", "Maakt je moe"], correct: 2, uitleg: "Oestrogeen stimuleert de opbouw van het baarmoederslijmvlies." },
+      { vraag: "Wat doet progesteron?", opties: ["Zorgt dat je niet ziek wordt", "Stimuleert de groei van spieren", "Houdt het baarmoederslijmvlies in stand", "Zorgt voor sperma"], correct: 2, uitleg: "Progesteron houdt het baarmoederslijmvlies in stand na de eisprong." },
+      { vraag: "Wat is een tweeeiige tweeling?", opties: ["Ontstaat uit 1 bevruchte eicel", "Altijd hetzelfde geslacht", "Ontstaat uit 2 eicellen en 2 zaadcellen", "Heeft altijd dezelfde bloedgroep"], correct: 2, uitleg: "Twee-eiige tweelingen ontstaan uit twee verschillende bevruchte eicellen." },
+      { vraag: "Wat zijn de fasen van de bevalling?", opties: ["Ontsluiting - uitdrijving - nageboorte", "Innesteling - bevruchting - geboorte", "Ontsluiting - indaling - bloedverlies", "Pauze - uitdrijving - hechting"], correct: 0, uitleg: "De juiste volgorde is ontsluiting, uitdrijving en nageboorte." },
+      { vraag: "Wat is een SOA?", opties: ["Een spierziekte", "Een vorm van allergie", "Seksueel overdraagbare aandoening", "Huidinfectie"], correct: 2, uitleg: "SOA staat voor Seksueel Overdraagbare Aandoening." },
+      { vraag: "Wat doet een condoom?", opties: ["Maakt je vruchtbaar", "Biedt bescherming tegen zwangerschap en SOA's", "Zorgt voor meer plezier", "Geeft je hormonen"], correct: 1, uitleg: "Een condoom voorkomt zwangerschap en beschermt tegen SOA’s." },
+      { vraag: "Wat is de pil?", opties: ["Een medicijn tegen koorts", "Een middel dat de menstruatie opwekt", "Een hormoonpil die de eisprong onderdrukt", "Een vitamine"], correct: 2, uitleg: "De pil onderdrukt de eisprong via hormonen." },
+      { vraag: "Wat is genderexpressie?", opties: ["Je biologische geslacht", "Hoe je je gender naar buiten toont via kleding en gedrag", "Of je op jongens valt", "Je naam"], correct: 1, uitleg: "Genderexpressie is hoe je jezelf uitdrukt in uiterlijk en gedrag." },
+      { vraag: "Wat betekent cisgender?", opties: ["Je voelt je hetzelfde als je geboortegeslacht", "Je weet nog niet wie je bent", "Je wisselt elke dag van identiteit", "Je bent geboren met meerdere geslachten"], correct: 0, uitleg: "Cisgender betekent dat je genderidentiteit overeenkomt met je geboortegeslacht." },
+      { vraag: "Wat betekent transgender?", opties: ["Je bent verliefd op iemand van hetzelfde geslacht", "Je hebt een andere genderidentiteit dan je geboortegeslacht", "Je hebt geen geslacht", "Je hebt twee geslachten"], correct: 1, uitleg: "Transgender betekent dat je je anders identificeert dan het geslacht waarmee je geboren bent." },
+      { vraag: "Wat betekent seksuele identiteit?", opties: ["Hoe je er uitziet", "Wat je eet", "Je seksuele voorkeur", "Je bloedgroep"], correct: 2, uitleg: "Seksuele identiteit gaat over op wie je valt, zoals homo, hetero of bi." },
+      { vraag: "Wat betekent toestemming bij seks?", opties: ["Iets dat je alleen als meisje hoeft te geven", "Altijd stilzwijgend", "Duidelijke en vrijwillige instemming", "Niet nodig als je verkering hebt"], correct: 2, uitleg: "Toestemming moet altijd duidelijk en vrijwillig zijn." },
+      { vraag: "Wat is puberteit?", opties: ["Periode waarin je stopt met groeien", "De fase waarin je lichamelijk en geestelijk verandert door hormonen", "Alleen stemverandering", "Een ziekte"], correct: 1, uitleg: "Puberteit is de fase van verandering onder invloed van hormonen." },
+      { vraag: "Wat is een zwellichaam?", opties: ["Een bot", "Een spier in het hart", "Een bloedrijk deel van de penis dat opzwelt bij opwinding", "Een klier"], correct: 2, uitleg: "Zwellichamen vullen zich met bloed en zorgen voor een erectie." },
+      { vraag: "Wat gebeurt er als een eicel niet bevrucht wordt?", opties: ["Je krijgt een tweeling", "Er ontstaat een nieuwe cyclus", "De eicel smelt weg in de eileider", "De menstruatie begint"], correct: 3, uitleg: "Als er geen bevruchting is, wordt het slijmvlies afgestoten: menstruatie." },
+      { vraag: "Wat is klievingsdeling?", opties: ["Deling van de bevruchte eicel", "Verdeling van hormonen", "Het loslaten van de eicel", "Vruchtwaterverlies"], correct: 0, uitleg: "Klievingsdeling is de eerste celdeling van een bevruchte eicel." },
+      { vraag: "Wat is de functie van de zaadleiders?", opties: ["Sperma produceren", "Sperma transporteren van bijballen naar urinebuis", "Urine afvoeren", "Hormonen maken"], correct: 1, uitleg: "Zaadleiders vervoeren sperma van de bijballen naar de urinebuis." },
+      { vraag: "Wat is het maagdenvlies?", opties: ["Een spier", "Een hard bot", "Een randje weefsel bij de ingang van de vagina", "Een beschermlaag"], correct: 2, uitleg: "Het maagdenvlies is een randje weefsel bij de vaginale ingang." },
+      { vraag: "Wat doet de clitoris?", opties: ["Zorgt voor menstruatie", "Is een tastorgaan met veel zenuwen voor seksuele opwinding", "Produceert eicellen", "Regelt de bevalling"], correct: 1, uitleg: "De clitoris is gevoelig voor aanraking en speelt een rol bij seksuele opwinding." },
+      { vraag: "Wat is een prostaat?", opties: ["Een klier die zaadvocht produceert", "Een spier", "Een zenuwknoop", "Een blaas"], correct: 0, uitleg: "De prostaat maakt deel uit van het mannelijk voortplantingssysteem en produceert zaadvocht." }
+    ];
+
+    const quizDiv = document.getElementById("quiz");
+
+    questions.forEach((q, index) => {
+      const qDiv = document.createElement("div");
+      qDiv.className = "question";
+
+      const vraag = document.createElement("p");
+      vraag.textContent = `${index + 1}. ${q.vraag}`;
+      qDiv.appendChild(vraag);
+
+      q.opties.forEach((optie, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = optie;
+        btn.onclick = () => {
+          if (i === q.correct) {
+            feedback.textContent = "Goed gedaan!";
+            feedback.className = "feedback correct";
+          } else {
+            feedback.textContent = `Fout. ${q.uitleg}`;
+            feedback.className = "feedback wrong";
+          }
+          feedback.style.display = "block";
+        };
+        qDiv.appendChild(btn);
+        qDiv.appendChild(document.createElement("br"));
+      });
+
+      const feedback = document.createElement("div");
+      feedback.className = "feedback";
+      qDiv.appendChild(feedback);
+
+      quizDiv.appendChild(qDiv);
+    });
+  </script>
+</body>
+</html>
